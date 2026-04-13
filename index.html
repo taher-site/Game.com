@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading | FUN GAME</title>
+    <style>
+        /* RESET & BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a0f, #12121a);
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* LOADING CONTAINER */
+        .loading-container {
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            padding: 40px 30px;
+            background: rgba(20, 20, 30, 0.7);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* BACKGROUND EFFECTS */
+        .loading-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.05) 0%, transparent 70%);
+            z-index: -1;
+        }
+        
+        .loading-container::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            right: -30%;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(255, 51, 51, 0.03) 0%, transparent 70%);
+            z-index: -1;
+        }
+        
+        /* LOGO & TITLE */
+        .game-logo {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            color: rgba(0, 255, 136, 0.8);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, rgba(0, 255, 136, 0.9), rgba(0, 204, 106, 0.7));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            color: rgba(136, 255, 204, 0.6);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            letter-spacing: 0.5px;
+        }
+        
+        /* LOADING BAR */
+        .loading-bar-container {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, 
+                rgba(0, 255, 136, 0.6) 0%, 
+                rgba(0, 255, 136, 0.8) 50%, 
+                rgba(0, 204, 106, 0.6) 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            animation: shimmer 1.5s infinite;
+        }
+        
+        /* LOADING INFO */
+        .loading-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            color: rgba(136, 255, 204, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        /* PROGRESS TEXT */
+        .progress-text {
+            margin-top: 25px;
+            color: rgba(0, 255, 136, 0.8);
+            font-size: 1.1rem;
+            font-weight: 600;
+            height: 25px;
+            overflow: hidden;
+        }
+        
+        /* FOOTER */
+        .footer {
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+        }
+        
+        /* ANIMATIONS */
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .loading-container {
+                padding: 30px 20px;
+            }
+            
+            .game-logo {
+                font-size: 2.8rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .game-logo {
+                font-size: 2.2rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="game-logo">🎮</div>
+        <h1>FUN GAME</h1>
+        <p class="subtitle">Loading game, please wait...</p>
+        
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="loadingBar"></div>
+        </div>
+        
+        <div class="loading-info">
+            <span id="progressPercent">0%</span>
+            <span id="statusText">Initializing...</span>
+        </div>
+        
+        <div class="progress-text" id="progressText">
+            Loading...
+        </div>
+        
+        <div class="footer">
+            © by Zoo x taher | Loading Screen
+        </div>
+    </div>
+    
+    <script>
+        // Status loading yang akan ditampilkan
+        const loadingStatuses = [
+            "Loading.",
+            "⏳Loading..",
+            "Memproses...",
+            "SELESAI✅",
+        ];
+        
+        // Elemen DOM
+        const loadingBar = document.getElementById('loadingBar');
+        const progressPercent = document.getElementById('progressPercent');
+        const statusText = document.getElementById('statusText');
+        const progressText = document.getElementById('progressText');
+        
+        // Variabel loading
+        let progress = 0;
+        let statusIndex = 0;
+        
+        // Fungsi untuk update loading bar
+        function updateLoadingBar() {
+            // Simulasi loading dengan kecepatan acak (seperti asli)
+            let increment = Math.random() * 8 + 2; // 2-10%
+            
+            // Pastikan tidak melebihi 100%
+            if (progress + increment > 100) {
+                increment = 100 - progress;
+            }
+            
+            progress += increment;
+            
+            // Update UI
+            loadingBar.style.width = progress + '%';
+            progressPercent.textContent = Math.round(progress) + '%';
+            
+            // Update status text setiap 25% progress
+            if (progress >= (statusIndex + 1) * 25 && statusIndex < loadingStatuses.length) {
+                progressText.textContent = loadingStatuses[statusIndex];
+                statusText.textContent = loadingStatuses[statusIndex];
+                statusIndex++;
+            }
+            
+            // Jika loading selesai
+            if (progress >= 100) {
+                progressText.textContent = "Siap! Mengarahkan ke login...";
+                statusText.textContent = "Loading selesai";
+                
+                // Tunggu sebentar lalu redirect
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 800);
+                
+                return; // Stop the interval
+            }
+            
+            // Lanjutkan loading dengan interval acak (seperti asli)
+            let nextDelay = Math.random() * 300 + 100; // 100-400ms
+            setTimeout(updateLoadingBar, nextDelay);
+        }
+        
+        // Mulai loading saat halaman dimuat
+        window.onload = function() {
+            // Mulai dengan sedikit delay
+            setTimeout(() => {
+                updateLoadingBar();
+            }, 500);
+        };
+    </script>
+</body>
+</html>
